@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapplication.R
 import com.example.noteapplication.app.viewmodel.NoteViewModel
 import com.example.noteapplication.databinding.LoginUsernameFragmentBinding
@@ -25,34 +27,37 @@ class LoginUsernameFragment: Fragment() {
     lateinit var noteViewModel: NoteViewModel
 
     lateinit var binding: LoginUsernameFragmentBinding
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).notesComponent.inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         noteViewModel.notes
             .subscribeOn(Schedulers.io())
             .subscribeWith(object: DisposableSingleObserver<List<NoteModel>>(),
                 Observer<NoteModel> {
                 override fun onSuccess(value: List<NoteModel>?) {
-                    value?.let {
-                        binding.bindingTest = it[0].noteDetails
+                    value?.let { notes ->
+                        activity?.runOnUiThread { binding.recyclerView.adapter = NoteAdapter(notes) }
                     }
                     Log.d("Observer result:", "onSuccess: ${value?.size}")
                 }
 
-                override fun onError(e: Throwable?) {
-                    Log.d("Observer result:", "onError: ${e?.message}")
-                }
-
-                override fun onComplete() {
-                    Log.d("Observer result:", "onComplete")
-                }
-
-                override fun onNext(value: NoteModel?) {
-                    Log.d("Observer result:", "onNext note details: ${value?.noteDetails}")
-                }
+                override fun onError(e: Throwable?) {}
+                override fun onComplete() {}
+                override fun onNext(value: NoteModel?) {}
             })
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onCreateView(
@@ -67,6 +72,8 @@ class LoginUsernameFragment: Fragment() {
            }
         }
         binding.bindingTest = "hello!"
+        val adapter = NoteAdapter(listOf())
+        binding.recyclerView.adapter = adapter
         return binding.root
     }
 }
