@@ -1,14 +1,19 @@
 package com.example.noteapplication.app.di.modules
 
+import android.content.Context
+import com.example.noteapplication.R
 import com.example.noteapplication.data.services.NoteService
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-// @Module informs Dagger that this class is a Dagger Module
 @Module
 class NetworkModule {
 
@@ -19,19 +24,22 @@ class NetworkModule {
         return okHttpBuilder.build()
     }
 
-    // @Provides tell Dagger how to create instances of the type that this function
-    // returns (i.e. LoginRetrofitService).
-    // Function parameters are the dependencies of this type.
     @Singleton
     @Provides
-    fun provideNoteService(
-        okHttpClient: OkHttpClient
-    ): NoteService {
-        // Whenever Dagger needs to provide an instance of type LoginRetrofitService,
-        // this code (the one inside the @Provides method) is run.
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .setLenient()
+            .create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(okHttpClient: OkHttpClient, context: Context): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://example.com")
+            .baseUrl(context.resources.getString(R.string.base_url))
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(okHttpClient)
             .build()
-            .create(NoteService::class.java)
     }
 }

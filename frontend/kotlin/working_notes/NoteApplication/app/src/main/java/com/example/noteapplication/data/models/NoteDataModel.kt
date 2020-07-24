@@ -3,8 +3,8 @@ package com.example.noteapplication.data.models
 import com.google.gson.annotations.SerializedName
 
 data class NoteDataModel (
-    @SerializedName("notesid")
+    @SerializedName("noteid")
     val noteId: Int = -1,
-    @SerializedName("notesid")
+    @SerializedName("notedetails")
     val noteDetails: String? = null
 )

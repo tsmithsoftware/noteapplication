@@ -1,13 +1,12 @@
 package com.example.noteapplication.app.viewmodel
 
-import com.example.noteapplication.domain.repositories.NoteRepository
 import com.example.noteapplication.app.di.scopes.ActivityScope
+import com.example.noteapplication.domain.usecases.GetNotesUseCase
 import javax.inject.Inject
 
-// @Inject tells Dagger how to create instances of LoginViewModel
 @ActivityScope
 class NoteViewModel @Inject constructor(
-    private val noteRepository: NoteRepository
+    notesUseCase: GetNotesUseCase
 ) {
-    val stringValue = "hi"
+    val notes = notesUseCase.execute()
 }

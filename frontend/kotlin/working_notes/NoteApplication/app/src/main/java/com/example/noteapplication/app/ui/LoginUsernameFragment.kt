@@ -2,6 +2,7 @@ package com.example.noteapplication.app.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,17 @@ import androidx.navigation.Navigation
 import com.example.noteapplication.R
 import com.example.noteapplication.app.viewmodel.NoteViewModel
 import com.example.noteapplication.databinding.LoginUsernameFragmentBinding
+import com.example.noteapplication.domain.models.NoteModel
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class LoginUsernameFragment: Fragment() {
 
     // Fields that need to be injected by the login graph
     @Inject
-    lateinit var loginViewModel: NoteViewModel
+    lateinit var noteViewModel: NoteViewModel
 
     lateinit var binding: LoginUsernameFragmentBinding
 
@@ -30,6 +35,29 @@ class LoginUsernameFragment: Fragment() {
 
         // Now you can access loginViewModel here and onCreateView too
         // (shared instance with the Activity and the other Fragment)
+
+        // Now loginViewModel is available
+        noteViewModel.notes
+            .subscribeOn(Schedulers.io())
+            .subscribeWith(object: DisposableSingleObserver<List<NoteModel>>(),
+                Observer<NoteModel> {
+                override fun onSuccess(value: List<NoteModel>?) {
+                    Log.d("Observer result:", "onSuccess: ${value?.size}")
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.d("Observer result:", "onError: ${e?.message}")
+                }
+
+                override fun onComplete() {
+                    Log.d("Observer result:", "onComplete")
+                }
+
+                override fun onNext(value: NoteModel?) {
+                    Log.d("Observer result:", "onNext note details: ${value?.noteDetails}")
+                }
+            })
+
     }
 
     override fun onCreateView(
