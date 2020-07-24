@@ -12,6 +12,7 @@ class NoteMapper @Inject constructor(){
     fun toNoteDetails(noteDataModel: NoteDataModel): NoteModel {
         return NoteModel(
             id = noteDataModel.noteId,
+            noteTitle = noteDataModel.noteTitle,
             noteDetails = noteDataModel.noteDetails
         )
     }

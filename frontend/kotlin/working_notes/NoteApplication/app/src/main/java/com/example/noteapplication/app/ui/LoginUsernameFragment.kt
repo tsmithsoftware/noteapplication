@@ -28,20 +28,15 @@ class LoginUsernameFragment: Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        // Obtaining the login graph from LoginActivity and instantiate
-        // the @Inject fields with objects from the graph
         (activity as MainActivity).notesComponent.inject(this)
-
-        // Now you can access loginViewModel here and onCreateView too
-        // (shared instance with the Activity and the other Fragment)
-
-        // Now loginViewModel is available
         noteViewModel.notes
             .subscribeOn(Schedulers.io())
             .subscribeWith(object: DisposableSingleObserver<List<NoteModel>>(),
                 Observer<NoteModel> {
                 override fun onSuccess(value: List<NoteModel>?) {
+                    value?.let {
+                        binding.bindingTest = it[0].noteDetails
+                    }
                     Log.d("Observer result:", "onSuccess: ${value?.size}")
                 }
 
@@ -71,6 +66,7 @@ class LoginUsernameFragment: Fragment() {
                Navigation.findNavController(it).navigate(R.id.loginPasswordFragment)
            }
         }
+        binding.bindingTest = "hello!"
         return binding.root
     }
 }

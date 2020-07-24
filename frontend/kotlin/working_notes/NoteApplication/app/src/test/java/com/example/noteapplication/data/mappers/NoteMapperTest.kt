@@ -9,10 +9,12 @@ class NoteMapperTest {
     fun testNoteMapperCorrectlyMapsNoteDataModelToNodeModel() {
         val noteDataModel = NoteDataModel(
             noteId = 1,
+            noteTitle = "Note Title",
             noteDetails = "Note"
         )
         val result = NoteMapper().toNoteDetails(noteDataModel)
         assert(result.id == 1)
+        assert(result.noteTitle == "Note Title")
         assert(result.noteDetails == "Note")
     }
 }
