@@ -15,4 +15,20 @@
         android:id="@+id/loginPasswordFragment"
         android:name="com.example.noteapplication.app.ui.LoginPasswordFragment"
         android:label="LoginPasswordFragment" />
+    <fragment
+        android:id="@+id/editNoteFragment"
+        android:name="com.example.noteapplication.app.ui.features.notes.EditNoteFragment"
+        android:label="EditNoteFragment" >
+        <argument
+            android:name="noteModel"
+            app:argType="com.example.noteapplication.domain.models.NoteModel" />
+    </fragment>
+
+    <action android:id="@+id/goToEditNote"
+        app:destination="@+id/editNoteFragment">
+        <argument
+            android:name="noteModel"
+            app:argType="com.example.noteapplication.domain.models.NoteModel" />
+    </action>
+
 </navigation>

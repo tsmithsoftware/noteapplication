@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="note"
+            type="com.example.noteapplication.domain.models.NoteModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/titleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@{note.noteTitle}"
+        android:autofillHints="Note Title"
+        android:hint="@string/note_title_hint"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/detailsText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        android:text="@{note.noteDetails}"
+        android:autofillHints="Note Details"
+        android:hint="@string/note_details_here"
+        android:inputType="text"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

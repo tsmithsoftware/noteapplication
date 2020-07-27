@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapplication.R
 import com.example.noteapplication.app.viewmodel.NoteViewModel
 import com.example.noteapplication.databinding.LoginUsernameFragmentBinding
@@ -16,7 +15,6 @@ import javax.inject.Inject
 
 class LoginUsernameFragment: Fragment() {
 
-    // Fields that need to be injected by the login graph
     @Inject
     lateinit var noteViewModel: NoteViewModel
 
@@ -32,7 +30,6 @@ class LoginUsernameFragment: Fragment() {
         noteViewModel.getNotes().observe(this, androidx.lifecycle.Observer { notes ->
             binding.recyclerView.adapter = NoteAdapter(notes)
         })
-
     }
 
     override fun onCreateView(
@@ -50,8 +47,6 @@ class LoginUsernameFragment: Fragment() {
             noteViewModel.loadNotes()
         }
         binding.bindingTest = "hello!"
-        val adapter = NoteAdapter(listOf())
-        binding.recyclerView.adapter = adapter
         return binding.root
     }
 }

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">NoteApplication</string>
     <string name="base_url">http://192.168.0.19:4000</string>
+    <string name="note_title_hint">title here</string>
+    <string name="note_details_here">note details here</string>
+    <string name="note_image_content_description_string">note image</string>
 </resources>

@@ -36,9 +36,7 @@ class NoteViewModel @Inject constructor(
                     notes.postValue(obtainedNotes)
                 }
 
-                override fun onError(e: Throwable?) {
-                    Log.d("onerror", e.toString())
-                }
+                override fun onError(e: Throwable?) {}
                 override fun onComplete() {}
                 override fun onNext(value: NoteModel?) {}
             })

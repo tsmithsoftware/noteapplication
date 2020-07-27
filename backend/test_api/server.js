@@ -2,7 +2,7 @@
 
 const express = require('express');
 const { Client } = require('pg')
-var connectionString = process.env.DATABASE_URL
+var connectionString = process.env.DATABASE_URL//'postgres://user:example@192.168.0.19:5432/db'  
 console.log('database url from env is: ', connectionString)
 
 const client = new Client({
@@ -21,7 +21,7 @@ client.connect(err => {
 const PORT = 4000;
 const HOST = '0.0.0.0';
 const selectQuery = "SELECT * FROM public.notes"
-const deleteQuery = "DELETE FROM public.notes WHERE noteId="
+const deleteQuery = "DELETE FROM public.notes WHERE noteid="
 const insertQuery = "INSERT INTO public.notes (notetitle, notedetails) VALUES ("
 
 // App
@@ -44,7 +44,7 @@ app.get('/notes', (req, res) => {
 );
 
 app.get('/notes/:noteId', (req, res) => {
-	var fullQuery = selectQuery + " WHERE noteId=" + req.params["noteId"] + ";"
+	var fullQuery = selectQuery + " WHERE noteid=" + req.params["noteId"] + ";"
 	client.query(fullQuery,
 		function (err, result) {
 			if (err) {
