@@ -43,6 +43,9 @@ class LoginUsernameFragment: Fragment() {
                Navigation.findNavController(it).navigate(R.id.loginPasswordFragment)
            }
         }
+        noteViewModel.getNotes().value?.let {
+            binding.recyclerView.adapter = NoteAdapter(it)
+        }
         binding.getNotes.setOnClickListener {
             noteViewModel.loadNotes()
         }
