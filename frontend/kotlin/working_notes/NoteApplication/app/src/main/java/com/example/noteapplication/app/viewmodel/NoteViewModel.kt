@@ -27,7 +27,7 @@ class NoteViewModel @Inject constructor(
         return notes
     }
 
-    private fun loadNotes() {
+    fun loadNotes() {
         notesUseCase.execute()
             .subscribeOn(Schedulers.io())
             .subscribeWith(object: DisposableSingleObserver<List<NoteModel>>(),
