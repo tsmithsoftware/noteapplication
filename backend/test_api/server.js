@@ -2,7 +2,7 @@
 
 const express = require('express');
 const { Client } = require('pg')
-var connectionString = 'postgres://user:example@192.168.0.19:5432/db' //process.env.DATABASE_URL
+var connectionString = process.env.DATABASE_URL
 console.log('database url from env is: ', connectionString)
 
 const client = new Client({
