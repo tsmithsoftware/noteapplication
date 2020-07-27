@@ -2,20 +2,16 @@ package com.example.noteapplication.app.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapplication.R
 import com.example.noteapplication.app.viewmodel.NoteViewModel
 import com.example.noteapplication.databinding.LoginUsernameFragmentBinding
-import com.example.noteapplication.domain.models.NoteModel
-import io.reactivex.Observer
-import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class LoginUsernameFragment: Fragment() {
@@ -29,29 +25,13 @@ class LoginUsernameFragment: Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).notesComponent.inject(this)
-        noteViewModel.notes
-            .subscribeOn(Schedulers.io())
-            .subscribeWith(object: DisposableSingleObserver<List<NoteModel>>(),
-                Observer<NoteModel> {
-                override fun onSuccess(value: List<NoteModel>?) {
-                    value?.let {
-                        binding.bindingTest = it[0].noteDetails
-                    }
-                    Log.d("Observer result:", "onSuccess: ${value?.size}")
-                }
+    }
 
-                override fun onError(e: Throwable?) {
-                    Log.d("Observer result:", "onError: ${e?.message}")
-                }
-
-                override fun onComplete() {
-                    Log.d("Observer result:", "onComplete")
-                }
-
-                override fun onNext(value: NoteModel?) {
-                    Log.d("Observer result:", "onNext note details: ${value?.noteDetails}")
-                }
-            })
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        noteViewModel.getNotes().observe(this, androidx.lifecycle.Observer { notes ->
+            binding.recyclerView.adapter = NoteAdapter(notes)
+        })
 
     }
 
@@ -66,7 +46,12 @@ class LoginUsernameFragment: Fragment() {
                Navigation.findNavController(it).navigate(R.id.loginPasswordFragment)
            }
         }
+        binding.getNotes.setOnClickListener {
+            noteViewModel.loadNotes()
+        }
         binding.bindingTest = "hello!"
+        val adapter = NoteAdapter(listOf())
+        binding.recyclerView.adapter = adapter
         return binding.root
     }
 }

@@ -21,16 +21,21 @@ services:
       POSTGRES_PASSWORD: example
 
   pg_admin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:4
+    restart: always
     container_name: pgadmin4
     ports:
       - "15432:80"
     environment:
       - GUNICORN_THREADS=1
-      - PGADMIN_DEFAULT_EMAIL=my_awesome_email@email.com
+      - PGADMIN_DEFAULT_EMAIL=tijak@protonmail.ch
       - PGADMIN_DEFAULT_PASSWORD=does_not_matter
     depends_on:
       - db
+    links:
+      - "db:pgsql-server"
+    networks:
+        - backend
       
   application:
     build: .
