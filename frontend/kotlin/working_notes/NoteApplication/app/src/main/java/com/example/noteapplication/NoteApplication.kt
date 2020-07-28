@@ -1,10 +1,9 @@
 package com.example.noteapplication
 
 import android.app.Application
-import com.example.noteapplication.app.di.components.ApplicationComponent
-import com.example.noteapplication.app.di.components.DaggerApplicationComponent
-import com.example.noteapplication.app.di.modules.NoteModule
-import com.example.noteapplication.data.mappers.NoteMapper_Factory.create
+import com.example.noteapplication.shared.di.components.ApplicationComponent
+import com.example.noteapplication.shared.di.components.DaggerApplicationComponent
+import com.example.noteapplication.shared.di.modules.NoteModule
 
 // appComponent lives in the Application class to share its lifecycle
 class NoteApplication: Application() {
