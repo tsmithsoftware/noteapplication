@@ -5,30 +5,26 @@
 
     <fragment
         android:id="@+id/loginUsernameFragment"
-        android:name="com.example.noteapplication.app.ui.LoginUsernameFragment"
+        android:name="com.example.noteapplication.features.notes.app.ui.fragments.LoginUsernameFragment"
         android:label="LoginUsernameFragment" />
     <activity
         android:id="@+id/mainActivity2"
-        android:name="com.example.noteapplication.app.ui.MainActivity"
+        android:name="com.example.noteapplication.features.notes.app.ui.activities.MainActivity"
         android:label="MainActivity" />
     <fragment
         android:id="@+id/loginPasswordFragment"
-        android:name="com.example.noteapplication.app.ui.LoginPasswordFragment"
+        android:name="com.example.noteapplication.features.notes.app.ui.fragments.LoginPasswordFragment"
         android:label="LoginPasswordFragment" />
     <fragment
         android:id="@+id/editNoteFragment"
-        android:name="com.example.noteapplication.app.ui.features.notes.EditNoteFragment"
-        android:label="EditNoteFragment" >
-        <argument
-            android:name="noteModel"
-            app:argType="com.example.noteapplication.domain.models.NoteModel" />
-    </fragment>
+        android:name="com.example.noteapplication.features.notes.app.ui.fragments.EditNoteFragment"
+        android:label="EditNoteFragment" />
 
-    <action android:id="@+id/goToEditNote"
+    <!--action android:id="@+id/goToEditNote"
         app:destination="@+id/editNoteFragment">
         <argument
             android:name="noteModel"
             app:argType="com.example.noteapplication.domain.models.NoteModel" />
-    </action>
+    </action-->
 
 </navigation>
