@@ -13,7 +13,7 @@ import com.example.noteapplication.databinding.EditNoteFragmentBinding
 class EditNoteFragment: Fragment() {
 
     private lateinit var binding: EditNoteFragmentBinding
-    //private val args: EditNoteFragmentArgs by navArgs()
+    private val args: EditNoteFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,7 +21,7 @@ class EditNoteFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.edit_note_fragment, container, false)
-        //binding.note = args.noteModel
+        binding.note = args.noteModel
         return binding.root
     }
 }

@@ -18,13 +18,22 @@
     <fragment
         android:id="@+id/editNoteFragment"
         android:name="com.example.noteapplication.features.notes.app.ui.fragments.EditNoteFragment"
-        android:label="EditNoteFragment" />
-
-    <!--action android:id="@+id/goToEditNote"
-        app:destination="@+id/editNoteFragment">
+        android:label="EditNoteFragment">
         <argument
+            app:nullable="false"
             android:name="noteModel"
-            app:argType="com.example.noteapplication.domain.models.NoteModel" />
-    </action-->
+            app:argType="com.example.noteapplication.features.notes.domain.models.NoteModel"
+            />
+    </fragment>
+
+    <action
+        android:id="@+id/goToEditNote"
+        app:destination="@id/editNoteFragment">
+        <argument
+            app:nullable="false"
+            android:name="noteModel"
+            app:argType="com.example.noteapplication.features.notes.domain.models.NoteModel"
+            />
+    </action>
 
 </navigation>

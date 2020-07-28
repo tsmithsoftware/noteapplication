@@ -32,8 +32,8 @@ class LoginUsernameFragment: Fragment() {
             noteId?.let { noteId ->
                 val note = noteCollection.find{ it.id == noteId }
                 if ( note  != null ) {
-                    //val action = EditNoteFragmentDirections.goToEditNote(note)
-                    //Navigation.findNavController(binding.root).navigate(action)
+                    val action = EditNoteFragmentDirections.goToEditNote(note)
+                    Navigation.findNavController(binding.root).navigate(action)
                 }
             }
         }
