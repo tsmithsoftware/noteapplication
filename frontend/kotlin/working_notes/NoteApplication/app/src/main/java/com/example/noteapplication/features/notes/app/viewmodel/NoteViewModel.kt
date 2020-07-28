@@ -1,20 +1,27 @@
 package com.example.noteapplication.features.notes.app.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.noteapplication.shared.di.scopes.ActivityScope
 import com.example.noteapplication.features.notes.domain.models.NoteModel
+import com.example.noteapplication.features.notes.domain.usecases.DeleteNoteUseCase
 import com.example.noteapplication.features.notes.domain.usecases.GetNotesUseCase
 import com.example.noteapplication.features.notes.domain.usecases.NoParams
+import com.example.noteapplication.features.notes.domain.usecases.Params
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 @ActivityScope
 class NoteViewModel @Inject constructor(
-    val notesUseCase: GetNotesUseCase
+    private val notesUseCase: GetNotesUseCase,
+    private val deleteNoteUseCase: DeleteNoteUseCase
 ): ViewModel() {
     private val notes: MutableLiveData<List<NoteModel>> by lazy {
         MutableLiveData<List<NoteModel>>().also {
@@ -42,7 +49,21 @@ class NoteViewModel @Inject constructor(
     }
 
     fun onDeleteNoteClicked(noteId: Int?) {
-
+        noteId?.let {
+            deleteNoteUseCase.execute(Params(noteId)).enqueue(
+                DeleteCallback()
+            )
+        }
     }
 
+}
+
+class DeleteCallback: Callback<Void> {
+    override fun onFailure(call: Call<Void>, t: Throwable) {
+        Log.d("failure call", "${t.message}")
+    }
+
+    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        Log.d("response call success", "success")
+    }
 }
