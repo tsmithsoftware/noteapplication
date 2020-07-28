@@ -5,16 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.noteapplication.R
-import com.example.noteapplication.features.notes.app.ui.activities.MainActivity
+import com.example.noteapplication.databinding.LoginUsernameFragmentBinding
 import com.example.noteapplication.features.notes.app.ui.NoteAdapter
 import com.example.noteapplication.features.notes.app.ui.NoteClickListener
+import com.example.noteapplication.features.notes.app.ui.activities.MainActivity
 import com.example.noteapplication.features.notes.app.viewmodel.NoteViewModel
-import com.example.noteapplication.databinding.LoginUsernameFragmentBinding
 import javax.inject.Inject
 
 class LoginUsernameFragment: Fragment() {
@@ -26,7 +25,6 @@ class LoginUsernameFragment: Fragment() {
 
     private val openListener = NoteClickListener {
             noteId ->
-        Toast.makeText(context, "$noteId", Toast.LENGTH_LONG).show()
         val notes = noteViewModel.getNotes().value
         notes?.let { noteCollection ->
             noteId?.let { noteId ->

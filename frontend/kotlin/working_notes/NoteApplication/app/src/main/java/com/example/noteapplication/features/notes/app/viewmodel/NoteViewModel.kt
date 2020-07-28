@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.noteapplication.shared.di.scopes.ActivityScope
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.usecases.GetNotesUseCase
+import com.example.noteapplication.features.notes.domain.usecases.NoParams
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
@@ -26,7 +27,7 @@ class NoteViewModel @Inject constructor(
     }
 
     fun loadNotes() {
-        notesUseCase.execute()
+        notesUseCase.execute(NoParams())
             .subscribeOn(Schedulers.io())
             .subscribeWith(object: DisposableSingleObserver<List<NoteModel>>(),
                 Observer<NoteModel> {

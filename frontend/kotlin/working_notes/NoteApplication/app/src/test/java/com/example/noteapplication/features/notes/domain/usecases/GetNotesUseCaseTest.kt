@@ -23,7 +23,7 @@ class GetNotesUseCaseTest {
     @Test
     fun testUseCaseCallsRepoGetNotesMethod() {
         val sut = GetNotesUseCase(mockNotesRepository)
-        val result = sut.execute()
+        val result = sut.execute(NoParams())
         verify(mockNotesRepository).getNotes()
         assert(result == mockSingle)
     }

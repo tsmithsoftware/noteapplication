@@ -7,8 +7,8 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class GetNotesUseCase @Inject constructor (private val notesRepo: NoteRepository):
-    SingleUseCase<List<NoteModel>> {
-    override fun execute(): Single<List<NoteModel>> {
+    SingleUseCase<List<NoteModel>, NoParams> {
+    override fun execute(params: NoParams): Single<List<NoteModel>> {
         return notesRepo.getNotes()
     }
 }
