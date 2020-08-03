@@ -23,6 +23,12 @@ class NoteRepositoryImplTest {
     @Test
     fun testGetNotesCallsServiceCorrectlyToGetNotes() {
         sut.getNotes()
-        verify(mockNoteService.getNotes())
+        verify(mockNoteService).getNotes()
+    }
+
+    @Test
+    fun testDeleteNoteCallsServiceCorrectlyToDeleteNote() {
+        sut.deleteNote(1)
+        verify(mockNoteService).deleteNote(1)
     }
 }

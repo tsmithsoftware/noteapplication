@@ -5,6 +5,7 @@ import com.example.noteapplication.features.notes.data.services.NoteService
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.repositories.NoteRepository
 import io.reactivex.Single
+import retrofit2.Call
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(
@@ -21,5 +22,9 @@ class NoteRepositoryImpl @Inject constructor(
                 }
                 noteList
             }
+    }
+
+    override fun deleteNote(noteId: Int): Call<Void> {
+        return noteService.deleteNote(noteId)
     }
 }
