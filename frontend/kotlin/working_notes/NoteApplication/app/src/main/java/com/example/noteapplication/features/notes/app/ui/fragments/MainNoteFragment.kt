@@ -72,7 +72,7 @@ class MainNoteFragment: Fragment() {
             noteViewModel.loadNotes()
         }
         binding.addNote.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.addNoteFragment)
+            Navigation.findNavController(it).navigate(R.id.submitNoteFragment)
         }
         binding.bindingTest = "hello!"
         return binding.root

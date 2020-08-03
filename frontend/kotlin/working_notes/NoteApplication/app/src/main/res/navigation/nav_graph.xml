@@ -36,7 +36,7 @@
             />
     </action>
     <dialog
-        android:id="@+id/addNoteFragment"
+        android:id="@+id/submitNoteFragment"
         android:name="com.example.noteapplication.features.notes.app.ui.fragments.SubmitNoteFragment"
         android:label="AddNoteFragment" />
 
