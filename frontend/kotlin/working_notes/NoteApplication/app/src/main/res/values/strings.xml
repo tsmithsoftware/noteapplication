@@ -1,7 +1,16 @@
 <resources>
     <string name="app_name">NoteApplication</string>
     <string name="base_url">http://192.168.0.19:4000</string>
+    <string name="note_title">Note title:</string>
+    <string name="note_details">Note details:</string>
     <string name="note_title_hint">title here</string>
     <string name="note_details_here">note details here</string>
     <string name="note_image_content_description_string">note image</string>
+    <string name="add_note">ADD NOTE!</string>
+    <string name="get_notes_title">GET NOTES!</string>
+    <string name="fragment_navigation_title">GO!</string>
+    <string name="add_note_title">Please enter your new note details below:</string>
+    <string name="add_note_title_hint">Add note title here…</string>
+    <string name="add_note_detail_hint">Add note detail here…</string>
+    <string name="submit">Submit!</string>
 </resources>

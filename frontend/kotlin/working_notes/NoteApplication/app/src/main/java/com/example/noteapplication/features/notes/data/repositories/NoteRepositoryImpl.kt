@@ -1,10 +1,12 @@
 package com.example.noteapplication.features.notes.data.repositories
 
 import com.example.noteapplication.features.notes.data.mappers.NoteMapper
+import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.data.services.NoteService
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.repositories.NoteRepository
 import io.reactivex.Single
+import okhttp3.ResponseBody
 import retrofit2.Call
 import javax.inject.Inject
 
@@ -26,5 +28,10 @@ class NoteRepositoryImpl @Inject constructor(
 
     override fun deleteNote(noteId: Int): Call<Void> {
         return noteService.deleteNote(noteId)
+    }
+
+    override fun postNote(note: NoteModel): Call<Void> {
+        val submitNote = noteMapper.toPostNote(note)
+        return noteService.postNote(submitNote)
     }
 }
