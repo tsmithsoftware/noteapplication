@@ -51,19 +51,20 @@ class NoteViewModel @Inject constructor(
     fun onDeleteNoteClicked(noteId: Int?) {
         noteId?.let {
             deleteNoteUseCase.execute(Params(noteId)).enqueue(
-                DeleteCallback()
+                DeleteCallback(this)
             )
         }
     }
 
 }
 
-class DeleteCallback: Callback<Void> {
+class DeleteCallback(private val noteViewModel: NoteViewModel) : Callback<Void> {
     override fun onFailure(call: Call<Void>, t: Throwable) {
         Log.d("failure call", "${t.message}")
     }
 
     override fun onResponse(call: Call<Void>, response: Response<Void>) {
         Log.d("response call success", "success")
+        noteViewModel.loadNotes()
     }
 }
