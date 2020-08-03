@@ -10,24 +10,18 @@ import androidx.fragment.app.Fragment
 import com.example.noteapplication.R
 import com.example.noteapplication.features.notes.app.ui.activities.MainActivity
 import com.example.noteapplication.features.notes.app.viewmodel.NoteViewModel
-import com.example.noteapplication.databinding.LoginPasswordFragmentBinding
+import com.example.noteapplication.databinding.SecondaryFragmentBinding
 import javax.inject.Inject
 
-class LoginPasswordFragment: Fragment() {
+class SecondaryFragment: Fragment() {
 
-    // Fields that need to be injected by the login graph
     @Inject
     lateinit var notesViewModel: NoteViewModel
 
-    lateinit var binding: LoginPasswordFragmentBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    lateinit var binding: SecondaryFragmentBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         (activity as MainActivity).notesComponent.inject(this)
     }
 
@@ -36,7 +30,7 @@ class LoginPasswordFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.login_password_fragment, container, false )
+        binding = DataBindingUtil.inflate(inflater, R.layout.secondary_fragment, container, false )
         return binding.root
     }
 }

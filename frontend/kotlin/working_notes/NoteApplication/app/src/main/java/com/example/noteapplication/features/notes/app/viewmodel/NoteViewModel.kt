@@ -58,6 +58,9 @@ class NoteViewModel @Inject constructor(
 
 }
 
+/**
+ * A callback used to reload the Notes once a Delete call is made
+ */
 class DeleteCallback(private val noteViewModel: NoteViewModel) : Callback<Void> {
     override fun onFailure(call: Call<Void>, t: Throwable) {
         Log.d("failure call", "${t.message}")

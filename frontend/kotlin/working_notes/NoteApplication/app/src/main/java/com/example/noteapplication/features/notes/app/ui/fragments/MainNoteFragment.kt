@@ -9,19 +9,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.noteapplication.R
-import com.example.noteapplication.databinding.LoginUsernameFragmentBinding
+import com.example.noteapplication.databinding.MainNoteFragmentBinding
 import com.example.noteapplication.features.notes.app.ui.NoteAdapter
 import com.example.noteapplication.features.notes.app.ui.NoteClickListener
 import com.example.noteapplication.features.notes.app.ui.activities.MainActivity
 import com.example.noteapplication.features.notes.app.viewmodel.NoteViewModel
 import javax.inject.Inject
 
-class LoginUsernameFragment: Fragment() {
+class MainNoteFragment: Fragment() {
 
     @Inject
     lateinit var noteViewModel: NoteViewModel
 
-    lateinit var binding: LoginUsernameFragmentBinding
+    lateinit var binding: MainNoteFragmentBinding
 
     private val openListener = NoteClickListener {
             noteId ->
@@ -61,17 +61,18 @@ class LoginUsernameFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.login_username_fragment, container, false )
+        binding = DataBindingUtil.inflate(inflater, R.layout.main_note_fragment, container, false )
         binding.navigateToOther.setOnClickListener {
-           this.view?.let {
-               Navigation.findNavController(it).navigate(R.id.loginPasswordFragment)
-           }
+            Navigation.findNavController(it).navigate(R.id.secondaryFragment)
         }
         noteViewModel.getNotes().value?.let {
             binding.recyclerView.adapter = NoteAdapter(it, openListener, deleteListener)
         }
         binding.getNotes.setOnClickListener {
             noteViewModel.loadNotes()
+        }
+        binding.addNote.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.addNoteFragment)
         }
         binding.bindingTest = "hello!"
         return binding.root

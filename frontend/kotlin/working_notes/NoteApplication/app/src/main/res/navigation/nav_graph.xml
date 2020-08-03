@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
-    app:startDestination="@id/loginUsernameFragment">
+    app:startDestination="@id/mainNoteFragment">
 
     <fragment
-        android:id="@+id/loginUsernameFragment"
-        android:name="com.example.noteapplication.features.notes.app.ui.fragments.LoginUsernameFragment"
+        android:id="@+id/mainNoteFragment"
+        android:name="com.example.noteapplication.features.notes.app.ui.fragments.MainNoteFragment"
         android:label="LoginUsernameFragment" />
     <activity
         android:id="@+id/mainActivity2"
         android:name="com.example.noteapplication.features.notes.app.ui.activities.MainActivity"
         android:label="MainActivity" />
     <fragment
-        android:id="@+id/loginPasswordFragment"
-        android:name="com.example.noteapplication.features.notes.app.ui.fragments.LoginPasswordFragment"
+        android:id="@+id/secondaryFragment"
+        android:name="com.example.noteapplication.features.notes.app.ui.fragments.SecondaryFragment"
         android:label="LoginPasswordFragment" />
     <fragment
         android:id="@+id/editNoteFragment"
@@ -35,5 +35,9 @@
             app:argType="com.example.noteapplication.features.notes.domain.models.NoteModel"
             />
     </action>
+    <dialog
+        android:id="@+id/addNoteFragment"
+        android:name="com.example.noteapplication.features.notes.app.ui.fragments.SubmitNoteFragment"
+        android:label="AddNoteFragment" />
 
 </navigation>
