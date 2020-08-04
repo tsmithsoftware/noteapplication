@@ -8,9 +8,10 @@
     <string name="note_image_content_description_string">note image</string>
     <string name="add_note">ADD NOTE!</string>
     <string name="get_notes_title">GET NOTES!</string>
-    <string name="fragment_navigation_title">GO!</string>
+    <string name="fragment_navigation_title">NAVIGATE!</string>
     <string name="add_note_title">Please enter your new note details below:</string>
     <string name="add_note_title_hint">Add note title here…</string>
     <string name="add_note_detail_hint">Add note detail here…</string>
     <string name="submit">Submit!</string>
+    <string name="secondary_fragment_string">Fragment existing soley for navigation</string>
 </resources>

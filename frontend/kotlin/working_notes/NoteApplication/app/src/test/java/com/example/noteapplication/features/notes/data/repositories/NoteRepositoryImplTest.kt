@@ -4,6 +4,7 @@ import com.example.noteapplication.features.notes.data.mappers.NoteMapper
 import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.data.services.NoteService
 import com.example.noteapplication.features.notes.domain.models.NoteModel
+import com.example.noteapplication.features.notes.domain.usecases.EditNoteParams
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -12,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 
 class NoteRepositoryImplTest {
-    lateinit var sut: NoteRepositoryImpl
+    private lateinit var sut: NoteRepositoryImpl
     private val mockNoteService: NoteService = mock()
     private val mockNotes: Single<List<NoteDataModel>> = mock()
     private val note = NoteModel(
@@ -44,5 +45,12 @@ class NoteRepositoryImplTest {
     fun testPostNoteCallsServiceCorrectlyToPostNote() {
         sut.postNote(note)
         verify(mockNoteService).postNote(noteDataModel)
+    }
+
+    @Test
+    fun testEditNoteCallsServiceCorrectlyToEditNote() {
+        val params = EditNoteParams(note)
+        sut.editNote(params)
+        verify(mockNoteService).editNote(1, noteDataModel)
     }
 }

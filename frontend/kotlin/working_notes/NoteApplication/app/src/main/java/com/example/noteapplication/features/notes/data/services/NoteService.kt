@@ -15,4 +15,6 @@ interface NoteService {
     fun deleteNote( @Path ("noteId") noteId: Int): Call<Void>
     @POST("/notes")
     fun postNote(@Body note: PostNote): Call<Void>
+    @PUT("/notes/{noteId}")
+    fun editNote( @Path ("noteId") noteId: Int, @Body note: PostNote): Call<Void>
 }
