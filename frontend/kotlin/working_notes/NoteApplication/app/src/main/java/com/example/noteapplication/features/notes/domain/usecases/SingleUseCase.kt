@@ -13,7 +13,12 @@ interface CallUseCase<R,IParams> {
     fun execute(params: IParams) : Call<R>
 }
 
+interface NullableCallUseCase<R,IParams> {
+    fun execute(params: IParams) : Call<R>?
+}
+
 interface IParams
-open class Params(var id: Int) : IParams
+open class DeleteNoteParams(var id: Int) : IParams
 open class AddNoteParams(var note: NoteModel) : IParams
+open class EditNoteParams(var note: NoteModel) : IParams
 open class NoParams: IParams

@@ -9,7 +9,7 @@ import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.usecases.DeleteNoteUseCase
 import com.example.noteapplication.features.notes.domain.usecases.GetNotesUseCase
 import com.example.noteapplication.features.notes.domain.usecases.NoParams
-import com.example.noteapplication.features.notes.domain.usecases.Params
+import com.example.noteapplication.features.notes.domain.usecases.DeleteNoteParams
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @ActivityScope
 class NoteViewModel @Inject constructor(
-    private val notesUseCase: GetNotesUseCase,
+    private val getNotesUseCase: GetNotesUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase
 ): ViewModel() {
     private val notes: MutableLiveData<List<NoteModel>> by lazy {
@@ -34,7 +34,7 @@ class NoteViewModel @Inject constructor(
     }
 
     fun loadNotes() {
-        notesUseCase.execute(NoParams())
+        getNotesUseCase.execute(NoParams())
             .subscribeOn(Schedulers.io())
             .subscribeWith(object: DisposableSingleObserver<List<NoteModel>>(),
                 Observer<NoteModel> {
@@ -50,7 +50,7 @@ class NoteViewModel @Inject constructor(
 
     fun onDeleteNoteClicked(noteId: Int?) {
         noteId?.let {
-            deleteNoteUseCase.execute(Params(noteId)).enqueue(
+            deleteNoteUseCase.execute(DeleteNoteParams(noteId)).enqueue(
                 DeleteCallback(this)
             )
         }

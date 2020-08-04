@@ -5,6 +5,7 @@ import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.data.services.NoteService
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.repositories.NoteRepository
+import com.example.noteapplication.features.notes.domain.usecases.EditNoteParams
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -33,5 +34,13 @@ class NoteRepositoryImpl @Inject constructor(
     override fun postNote(note: NoteModel): Call<Void> {
         val submitNote = noteMapper.toPostNote(note)
         return noteService.postNote(submitNote)
+    }
+
+    override fun editNote(params: EditNoteParams): Call<Void>? {
+        params.note.id?.let {
+            val submitNote = noteMapper.toPostNote(params.note)
+            return noteService.editNote(it, submitNote)
+        }
+        return null
     }
 }
