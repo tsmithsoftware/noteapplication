@@ -23,7 +23,7 @@ const HOST = '0.0.0.0';
 const selectQuery = "SELECT * FROM public.notes"
 const deleteQuery = "DELETE FROM public.notes WHERE noteid="
 const insertQuery = "INSERT INTO public.notes (notetitle, notedetails) VALUES ("
-const updateQuery = "UPDATE public.notes SET notetitle = "
+const updateQuery = "UPDATE public.notes SET notetitle = '"
 
 function buildSelectQuery(noteId){
 	return selectQuery + " WHERE noteid=" + noteId + ";"
@@ -38,7 +38,7 @@ function buildInsertQuery(noteTitle, noteDetails) {
 }
 
 function buildUpdateQuery(noteId, newTitle, newDetails) {
-	return updateQuery + newTitle + ", notedetails = " + newDetails + " WHERE noteid = " + noteId + ";" 
+	return updateQuery + newTitle + "', notedetails = '" + newDetails + "' WHERE noteid = " + noteId + ";" 
 }
 
 // App
@@ -109,9 +109,10 @@ app.post('/notes', (req,res) => {
 	)
 });
 
-app.put('/notes', (req,res) => {
+app.put('/notes/:id', (req,res) => {
 	var noteObject = req.body
-	var fullQuery = buildUpdateQuery(noteObject.noteId, noteObject.noteTitle, noteObject.noteDetails)
+	const id = req.params.id;
+	var fullQuery = buildUpdateQuery(id, noteObject.noteTitle, noteObject.noteDetails)
 	console.log(fullQuery)
 	
 	client.query(fullQuery, 
