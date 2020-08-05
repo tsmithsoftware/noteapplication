@@ -8,4 +8,8 @@
     <PackageReference Include="IdentityServer4" Version="4.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Certificates\" />
+  </ItemGroup>
+
 </Project>
