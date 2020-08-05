@@ -1,26 +1,26 @@
-﻿using Microsoft.Owin.Hosting;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace OAuth2_IdentityServer
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            // logging
-            Log.Logger = new LoggerConfiguration()
-                .CreateLogger();
-
-            using (WebApp.Start<Startup>("http://localhost:12345"))
-            {
-                Console.WriteLine("server running...");
-                Console.ReadLine();
-            }
+            CreateHostBuilder(args).Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
