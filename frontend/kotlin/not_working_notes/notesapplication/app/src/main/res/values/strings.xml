@@ -1,4 +1,0 @@
-<resources>
-    <string name="app_name">notesapplication</string>
-    <string name="base_url">http://localhost:4000</string>
-</resources>
