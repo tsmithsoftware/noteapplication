@@ -1,1 +1,2 @@
 ./backend/oauth/OAuth2_IdentityServer/Certificates/private.pem
+./backend/oauth/OAuth2_IdentityServer/obj/Debug/*
