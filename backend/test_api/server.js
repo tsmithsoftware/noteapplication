@@ -1,5 +1,6 @@
 'use strict';
 
+var url = require("url");
 const express = require('express');
 const { Client } = require('pg')
 var connectionString = process.env.DATABASE_URL//'postgres://user:example@192.168.0.19:5432/db'  
@@ -74,18 +75,34 @@ ANnNF+EHUFFGQw8aX6ixGxwyrFzFsbYtTUgEY8qGWbYLyzCWbHvMO5jL
 -----END RSA PRIVATE KEY-----`
 ;
 
-app.get('/verify/:token', (req, res) => {
-  const jwt = require('njwt');
-  const { token } = req.params;
-  jwt.verify(token, accessTokenSecret, 'RS256', (err, verifiedJwt) => {
-    if(err){
-      res.send(err.message)
-    }else{
-      res.send(verifiedJwt)
+// verification middleware
+app.use(function(req,res, next) {
+	const jwt = require('njwt');
+	
+	// check for basic auth header
+    if (!req.headers.authorization) {
+        return res.status(401).json({ message: 'Missing Authorization Header' });
     }
-  })
-})
+	
+	if (req.headers.authorization.indexOf('Bearer ') === -1) {
+		return res.status(401).json({ message: 'Missing Bearer token' });
+	}
+	
+	const authToken = req.headers.authorization.split(" ")[1]
+	jwt.verify(authToken, accessTokenSecret, 'RS256', (err, verifiedJwt) => {
+		if(err){
+			res.send(err.message)
+			}else{
+				console.log("Request verified")
+				next()
+				}
+			})
+			}
+);
 
+app.get('/check', (req,res) => {
+	res.status(200).send("Response!");
+});
 
 app.get('/notes', (req, res) => {
 	client.query(selectQuery + ";",
