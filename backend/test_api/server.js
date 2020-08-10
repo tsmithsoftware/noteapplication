@@ -5,6 +5,8 @@ const express = require('express');
 const { Client } = require('pg')
 var connectionString = process.env.DATABASE_URL//'postgres://user:example@192.168.0.19:5432/db'  
 console.log('database url from env is: ', connectionString)
+// set timezone
+process.env.TZ = 'Europe/London';
 
 const client = new Client({
 	connectionString
@@ -40,6 +42,31 @@ function buildInsertQuery(noteTitle, noteDetails) {
 
 function buildUpdateQuery(noteId, newTitle, newDetails) {
 	return updateQuery + newTitle + "', notedetails = '" + newDetails + "' WHERE noteid = " + noteId + ";" 
+}
+
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
 }
 
 // App
@@ -79,18 +106,24 @@ ANnNF+EHUFFGQw8aX6ixGxwyrFzFsbYtTUgEY8qGWbYLyzCWbHvMO5jL
 app.use(function(req,res, next) {
 	const jwt = require('njwt');
 	
+	console.log("in middleware")
+	console.log("Current date time: " + getDateTime())
 	// check for basic auth header
     if (!req.headers.authorization) {
+		console.log("missing auth header")
         return res.status(401).json({ message: 'Missing Authorization Header' });
     }
 	
 	if (req.headers.authorization.indexOf('Bearer ') === -1) {
+		console.log("missing bearer token")
 		return res.status(401).json({ message: 'Missing Bearer token' });
 	}
 	
 	const authToken = req.headers.authorization.split(" ")[1]
+	console.log("auth token: " + authToken)
 	jwt.verify(authToken, accessTokenSecret, 'RS256', (err, verifiedJwt) => {
 		if(err){
+			console.log(err.message)
 			res.send(err.message)
 			}else{
 				console.log("Request verified")
