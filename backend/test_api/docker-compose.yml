@@ -39,7 +39,8 @@ services:
       
   application:
     build: .
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; npm start server.js'
+    command: >
+      bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; env TZ="Europe/London" npm start server.js'
     ports:
       - "4000:4000"
     depends_on:
