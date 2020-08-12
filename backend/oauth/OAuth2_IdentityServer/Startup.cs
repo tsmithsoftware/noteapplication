@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using IdentityServer4.Configuration;
@@ -26,9 +27,28 @@ namespace OAuth2_IdentityServer
         {
             Configuration = configuration;
         }
-        
+
+        public static DirectoryInfo GetExecutingDirectory()
+        {
+            var location = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);
+            return new FileInfo(location.AbsolutePath).Directory;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
+            Console.WriteLine("Does Certificates folder exist?");
+            var dirExists = Directory.Exists("./Certificates");
+            Console.WriteLine(dirExists);
+            Console.WriteLine("How many files in Certificates?");
+            DirectoryInfo directory = new DirectoryInfo("./Certificates");
+            if (directory.Exists) {
+                var files = directory.GetFiles();
+                Console.WriteLine("Number of files in directory: " + files.Length);
+                foreach (var file in files) {
+                    Console.WriteLine(file.FullName);
+                }
+            }
+
             var signingCredential = GenerateSigningCredentials();
             services.AddIdentityServer()
                 .AddInMemoryClients(Clients.Get())
@@ -46,9 +66,10 @@ namespace OAuth2_IdentityServer
             Debug.Assert(!String.IsNullOrEmpty(password), "Jwt:Secret is missing from appsettings");
             string certificate = Configuration["Jwt:Certificate"];
             Debug.Assert(!String.IsNullOrEmpty(certificate), "Jwt:Certificate is missing from appsettings");
-            var file = File.Exists("./Certificates/notesCert.pfx");
-
-            var cert = new X509Certificate2(
+            if (!File.Exists(certificate)) throw new Exception("Certificate File does not exist");
+            try
+            {
+                var cert = new X509Certificate2(
               certificate,
               password,
               X509KeyStorageFlags.MachineKeySet |
@@ -56,7 +77,12 @@ namespace OAuth2_IdentityServer
               X509KeyStorageFlags.Exportable
             );
 
-            return cert;
+                return cert;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
