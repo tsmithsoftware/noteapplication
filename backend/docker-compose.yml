@@ -6,13 +6,12 @@ version: '3.1'
 
 services:
   db:
-    image: postgres
+    build: ./db
     restart: always
     ports:
       - "5432:5432"
     volumes:
-      - ./init-user-db.sql:/docker-entrypoint-initdb.d/init-user-db.sql
-      - ./data:/data/db
+      - ./data:/db/data
     networks:
       - backend
     environment:
