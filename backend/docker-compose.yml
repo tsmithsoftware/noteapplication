@@ -38,7 +38,7 @@ services:
         - backend
       
   application:
-    build: .
+    build: ./test_api
     command: >
       bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; env TZ="Europe/London" npm start server.js'
     ports:
@@ -52,6 +52,11 @@ services:
       - db
     networks:
       - backend
+      
+  oauth:
+    build: ./oauth/Oauth2_IdentityServer
+    ports:
+      - "4001:5000"
      
 networks:
   backend:
