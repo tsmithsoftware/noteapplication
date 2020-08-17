@@ -76,6 +76,9 @@ services:
      - ./nginx/content/:/var/www/html/
     expose:
      - "80"
+    depends_on:
+     - application
+     - oauth
     ports:
      - 80:80
      - 443:443
