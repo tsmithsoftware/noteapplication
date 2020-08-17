@@ -103,6 +103,7 @@ ANnNF+EHUFFGQw8aX6ixGxwyrFzFsbYtTUgEY8qGWbYLyzCWbHvMO5jL
 ;
 
 // verification middleware
+
 app.use(function(req,res, next) {
 	const jwt = require('njwt');
 	
@@ -132,6 +133,7 @@ app.use(function(req,res, next) {
 			})
 			}
 );
+
 
 app.get('/check', (req,res) => {
 	res.status(200).send("Response!");

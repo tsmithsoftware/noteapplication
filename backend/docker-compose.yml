@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3'
 # access pgadmin4 through localhost:15432, add postgres db using ip address of test_api_default bridge network 
 # docker network inspect test_api_backend (subnet address)
 # use this to connect through the pgadmin4 web fe (login to fe using pgadmin creds)
@@ -13,7 +13,9 @@ services:
     volumes:
       - ./data:/db/data
     networks:
-      - backend
+      backend:
+        aliases:
+          - db
     environment:
       POSTGRES_USER: user
       POSTGRES_DB: db
@@ -34,7 +36,9 @@ services:
     links:
       - "db:pgsql-server"
     networks:
-        - backend
+        backend:
+          aliases:
+            - pg_admin
       
   application:
     build: ./test_api
@@ -50,12 +54,40 @@ services:
     links:
       - db
     networks:
-      - backend
+      backend:
+        aliases:
+          - application
       
   oauth:
     build: ./oauth/Oauth2_IdentityServer
     ports:
-      - "4001:5000"
+      - "5000:5000"
+    networks:
+      backend:
+        aliases:
+          - oauth
+      
+  #Nginx Service
+  webserver:
+    build: ./nginx
+    container_name: webserver
+    restart: unless-stopped
+    volumes:
+     - ./nginx/content/:/var/www/html/
+    expose:
+     - "80"
+    depends_on:
+     - application
+     - oauth
+    ports:
+     - 80:80
+     - 443:443
+    networks:
+      backend:
+        aliases:
+          - webserver
+    tty: true
+
      
 networks:
   backend:
