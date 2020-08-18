@@ -1,6 +1,10 @@
 package com.example.noteapplication.shared.di.modules
 
 import android.content.Context
+import com.example.noteapplication.features.login.data.repositories.LoginRepositoryImpl
+import com.example.noteapplication.features.login.data.services.LoginService
+import com.example.noteapplication.features.login.domain.models.LoginResponse
+import com.example.noteapplication.features.login.domain.repositories.LoginRepository
 import com.example.noteapplication.features.notes.data.repositories.NoteRepositoryImpl
 import com.example.noteapplication.features.notes.data.services.NoteService
 import com.example.noteapplication.features.notes.domain.repositories.NoteRepository
@@ -22,8 +26,18 @@ class NoteModule(val context: Context) {
     }
 
     @Provides
+    fun provideLoginService(retrofit: Retrofit): LoginService {
+        return retrofit.create(LoginService::class.java)
+    }
+
+    @Provides
     fun provideNoteRepository(noteService: NoteService): NoteRepository {
         return NoteRepositoryImpl(noteService)
+    }
+
+    @Provides
+    fun provideLoginRepository(loginService: LoginService): LoginRepository {
+        return LoginRepositoryImpl(loginService)
     }
 
 }

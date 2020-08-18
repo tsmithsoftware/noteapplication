@@ -7,7 +7,7 @@ data class LoginRequest (
     var grantType: String,
 
     @SerializedName("client_id")
-    var clientId: String ,
+    var clientId: String,
 
     @SerializedName("client_secret")
     var clientSecret: String

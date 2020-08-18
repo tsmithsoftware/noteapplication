@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         android:name=".NoteApplication"
         >
-        <activity android:name=".features.notes.app.ui.activities.MainActivity">
+        <activity android:name=".shared.app.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

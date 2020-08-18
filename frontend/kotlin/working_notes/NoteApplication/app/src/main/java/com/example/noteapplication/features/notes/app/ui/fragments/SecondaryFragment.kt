@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.noteapplication.R
-import com.example.noteapplication.features.notes.app.ui.activities.MainActivity
+import com.example.noteapplication.shared.app.activities.MainActivity
 import com.example.noteapplication.features.notes.app.viewmodel.NoteViewModel
 import com.example.noteapplication.databinding.SecondaryFragmentBinding
 import javax.inject.Inject

@@ -3,7 +3,7 @@ package com.example.noteapplication.features.notes.app.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.noteapplication.features.notes.domain.models.NoteModel
-import com.example.noteapplication.features.notes.domain.usecases.EditNoteParams
+import com.example.noteapplication.shared.util.EditNoteParams
 import com.example.noteapplication.features.notes.domain.usecases.EditNoteUseCase
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +18,11 @@ class EditNoteViewModel @Inject constructor(
     lateinit var noteViewModel: NoteViewModel
 
     fun editNote(note: NoteModel) {
-        editNoteUseCase.execute(EditNoteParams(note))?.enqueue(
+        editNoteUseCase.execute(
+            EditNoteParams(
+                note
+            )
+        )?.enqueue(
             EditCallback(noteViewModel)
         )
     }

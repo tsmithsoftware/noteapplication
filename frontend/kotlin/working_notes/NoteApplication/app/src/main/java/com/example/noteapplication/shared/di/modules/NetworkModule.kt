@@ -2,6 +2,7 @@ package com.example.noteapplication.shared.di.modules
 
 import android.content.Context
 import com.example.noteapplication.R
+import com.example.noteapplication.features.notes.domain.interceptors.AuthInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -17,11 +18,12 @@ import javax.inject.Singleton
 class NetworkModule {
 
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(context: Context): OkHttpClient {
         val okHttpBuilder = OkHttpClient.Builder()
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         okHttpBuilder.addInterceptor(interceptor)
+        okHttpBuilder.addInterceptor(AuthInterceptor(context))
         return okHttpBuilder.build()
     }
 

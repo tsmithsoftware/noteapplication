@@ -9,10 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.noteapplication.R
 import com.example.noteapplication.databinding.AddNoteFragmentBinding
-import com.example.noteapplication.features.notes.app.ui.activities.MainActivity
-import com.example.noteapplication.features.notes.app.viewmodel.NoteViewModel
+import com.example.noteapplication.shared.app.activities.MainActivity
 import com.example.noteapplication.features.notes.app.viewmodel.SubmitNoteViewModel
-import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import javax.inject.Inject
 

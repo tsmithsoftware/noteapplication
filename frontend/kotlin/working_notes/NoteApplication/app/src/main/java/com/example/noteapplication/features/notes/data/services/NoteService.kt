@@ -1,5 +1,7 @@
 package com.example.noteapplication.features.notes.data.services
 
+import com.example.noteapplication.features.login.domain.models.LoginRequest
+import com.example.noteapplication.features.login.domain.models.LoginResponse
 import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.data.models.PostNote
 import io.reactivex.Single
