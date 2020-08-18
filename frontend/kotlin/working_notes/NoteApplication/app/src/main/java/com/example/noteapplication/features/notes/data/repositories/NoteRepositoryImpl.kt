@@ -1,13 +1,11 @@
 package com.example.noteapplication.features.notes.data.repositories
 
 import com.example.noteapplication.features.notes.data.mappers.NoteMapper
-import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.data.services.NoteService
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.repositories.NoteRepository
-import com.example.noteapplication.features.notes.domain.usecases.EditNoteParams
+import com.example.noteapplication.shared.util.EditNoteParams
 import io.reactivex.Single
-import okhttp3.ResponseBody
 import retrofit2.Call
 import javax.inject.Inject
 

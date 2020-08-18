@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.example.noteapplication.R
 import com.example.noteapplication.databinding.EditNoteFragmentBinding
-import com.example.noteapplication.features.notes.app.ui.activities.MainActivity
+import com.example.noteapplication.shared.app.activities.MainActivity
 import com.example.noteapplication.features.notes.app.viewmodel.EditNoteViewModel
-import com.example.noteapplication.features.notes.domain.models.NoteModel
 import javax.inject.Inject
 
 class EditNoteFragment: Fragment() {

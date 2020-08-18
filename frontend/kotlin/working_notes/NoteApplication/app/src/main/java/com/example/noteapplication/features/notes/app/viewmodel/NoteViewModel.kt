@@ -8,8 +8,8 @@ import com.example.noteapplication.shared.di.scopes.ActivityScope
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.usecases.DeleteNoteUseCase
 import com.example.noteapplication.features.notes.domain.usecases.GetNotesUseCase
-import com.example.noteapplication.features.notes.domain.usecases.NoParams
-import com.example.noteapplication.features.notes.domain.usecases.DeleteNoteParams
+import com.example.noteapplication.shared.util.NoParams
+import com.example.noteapplication.shared.util.DeleteNoteParams
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
@@ -50,7 +50,11 @@ class NoteViewModel @Inject constructor(
 
     fun onDeleteNoteClicked(noteId: Int?) {
         noteId?.let {
-            deleteNoteUseCase.execute(DeleteNoteParams(noteId)).enqueue(
+            deleteNoteUseCase.execute(
+                DeleteNoteParams(
+                    noteId
+                )
+            ).enqueue(
                 DeleteCallback(this)
             )
         }

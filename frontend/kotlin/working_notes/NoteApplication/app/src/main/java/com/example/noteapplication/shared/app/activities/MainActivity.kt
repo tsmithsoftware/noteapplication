@@ -1,4 +1,4 @@
-package com.example.noteapplication.features.notes.app.ui.activities
+package com.example.noteapplication.shared.app.activities
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil

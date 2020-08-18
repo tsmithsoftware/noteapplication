@@ -1,4 +1,4 @@
-package com.example.noteapplication.features.notes.app.viewmodel
+package com.example.noteapplication.shared.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 /**
  * ViewModelFactory which uses Dagger to create the instances.
  */
-class NoteViewModelFactory @Inject constructor(
+class ViewModelFactory @Inject constructor(
     private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -42,7 +42,7 @@ abstract class ViewModelBuilderModule {
 
     @Binds
     abstract fun bindViewModelFactory(
-        factory: NoteViewModelFactory
+        factory: ViewModelFactory
     ): ViewModelProvider.Factory
 }
 

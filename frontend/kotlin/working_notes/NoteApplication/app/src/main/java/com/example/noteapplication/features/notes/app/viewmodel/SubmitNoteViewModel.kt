@@ -3,7 +3,7 @@ package com.example.noteapplication.features.notes.app.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.noteapplication.features.notes.domain.models.NoteModel
-import com.example.noteapplication.features.notes.domain.usecases.AddNoteParams
+import com.example.noteapplication.shared.util.AddNoteParams
 import com.example.noteapplication.features.notes.domain.usecases.PostNotesUseCase
 import com.example.noteapplication.shared.di.scopes.ActivityScope
 import retrofit2.Call
@@ -20,7 +20,11 @@ class SubmitNoteViewModel @Inject constructor(
     lateinit var noteViewModel: NoteViewModel
 
     fun submitNote(note: NoteModel) {
-        postNotesUseCase.execute(AddNoteParams(note)).enqueue(
+        postNotesUseCase.execute(
+            AddNoteParams(
+                note
+            )
+        ).enqueue(
             PostNoteCallback(noteViewModel)
         )
     }

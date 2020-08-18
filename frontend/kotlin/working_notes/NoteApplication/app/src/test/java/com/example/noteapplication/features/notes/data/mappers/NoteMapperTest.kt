@@ -8,7 +8,7 @@ import org.junit.Test
 class NoteMapperTest {
 
     @Test
-    fun testNoteMapperCorrectlyMapsNoteDataModelToNodeModel() {
+    fun testNoteMapperCorrectlyMapsNoteDataModelToNoteModel() {
         val noteDataModel = NoteDataModel(
             noteId = 1,
             noteTitle = "Note Title",

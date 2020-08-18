@@ -9,7 +9,7 @@
         android:label="LoginUsernameFragment" />
     <activity
         android:id="@+id/mainActivity2"
-        android:name="com.example.noteapplication.features.notes.app.ui.activities.MainActivity"
+        android:name="com.example.noteapplication.shared.app.activities.MainActivity"
         android:label="MainActivity" />
     <fragment
         android:id="@+id/secondaryFragment"
@@ -39,5 +39,9 @@
         android:id="@+id/submitNoteFragment"
         android:name="com.example.noteapplication.features.notes.app.ui.fragments.SubmitNoteFragment"
         android:label="AddNoteFragment" />
+    <dialog
+        android:id="@+id/loginFragment"
+        android:name="com.example.noteapplication.features.login.app.ui.LoginFragment"
+        android:label="LoginFragment" />
 
 </navigation>

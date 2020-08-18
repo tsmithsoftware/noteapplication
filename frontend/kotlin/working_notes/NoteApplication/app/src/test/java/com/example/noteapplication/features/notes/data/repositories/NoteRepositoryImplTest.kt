@@ -4,7 +4,7 @@ import com.example.noteapplication.features.notes.data.mappers.NoteMapper
 import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.data.services.NoteService
 import com.example.noteapplication.features.notes.domain.models.NoteModel
-import com.example.noteapplication.features.notes.domain.usecases.EditNoteParams
+import com.example.noteapplication.shared.util.EditNoteParams
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever

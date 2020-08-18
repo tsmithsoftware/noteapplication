@@ -1,17 +1,22 @@
 <resources>
     <string name="app_name">NoteApplication</string>
-    <string name="base_url">http://10.0.2.2:4000</string>
+    <string name="base_url">http://10.0.2.2:80</string>
     <string name="note_title">Note title:</string>
     <string name="note_details">Note details:</string>
     <string name="note_title_hint">title here</string>
     <string name="note_details_here">note details here</string>
     <string name="note_image_content_description_string">note image</string>
     <string name="add_note">ADD NOTE!</string>
+    <string name="get_token">GET SAVED TOKEN</string>
     <string name="get_notes_title">GET NOTES!</string>
     <string name="fragment_navigation_title">NAVIGATE!</string>
     <string name="add_note_title">Please enter your new note details below:</string>
     <string name="add_note_title_hint">Add note title here…</string>
     <string name="add_note_detail_hint">Add note detail here…</string>
     <string name="submit">Submit!</string>
-    <string name="secondary_fragment_string">Fragment existing soley for navigation</string>
+    <string name="login">Login with saved token</string>
+    <string name="secondary_fragment_string">Fragment existing solely for navigation</string>
+    <string name="grant_type">client_credentials</string>
+    <string name="client_id">oAuthClient</string>
+    <string name="client_secret">15FCE3AC-C999-4735-99FD-AB6A04F67415</string>
 </resources>

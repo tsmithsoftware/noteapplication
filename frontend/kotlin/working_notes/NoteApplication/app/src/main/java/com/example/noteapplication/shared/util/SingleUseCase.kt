@@ -1,6 +1,6 @@
-package com.example.noteapplication.features.notes.domain.usecases
+package com.example.noteapplication.shared.util
 
-import com.example.noteapplication.features.notes.data.models.NoteDataModel
+import com.example.noteapplication.features.login.domain.models.LoginRequest
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import io.reactivex.Single
 import retrofit2.Call
@@ -18,7 +18,12 @@ interface NullableCallUseCase<R,IParams> {
 }
 
 interface IParams
-open class DeleteNoteParams(var id: Int) : IParams
-open class AddNoteParams(var note: NoteModel) : IParams
-open class EditNoteParams(var note: NoteModel) : IParams
+open class DeleteNoteParams(var id: Int) :
+    IParams
+open class AddNoteParams(var note: NoteModel) :
+    IParams
+open class EditNoteParams(var note: NoteModel) :
+    IParams
+open class LoginParams(var request: LoginRequest):
+    IParams
 open class NoParams: IParams
