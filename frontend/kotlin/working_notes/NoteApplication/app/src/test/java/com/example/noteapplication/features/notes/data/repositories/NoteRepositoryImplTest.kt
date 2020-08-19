@@ -1,21 +1,34 @@
 package com.example.noteapplication.features.notes.data.repositories
 
+import androidx.databinding.ObservableBoolean
+import com.example.OfflineTests
+import com.example.OnlineTests
+import com.example.noteapplication.features.notes.data.datasources.interfaces.INoteLocalDataSource
+import com.example.noteapplication.features.notes.data.datasources.interfaces.INoteRemoteDataSource
 import com.example.noteapplication.features.notes.data.mappers.NoteMapper
 import com.example.noteapplication.features.notes.data.models.NoteDataModel
-import com.example.noteapplication.features.notes.data.services.NoteService
 import com.example.noteapplication.features.notes.domain.models.NoteModel
-import com.example.noteapplication.shared.util.EditNoteParams
+import com.example.noteapplication.shared.util.NoteNetworkInfo
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
+import org.junit.experimental.categories.Categories
+import org.junit.experimental.categories.Category
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+
 
 class NoteRepositoryImplTest {
     private lateinit var sut: NoteRepositoryImpl
-    private val mockNoteService: NoteService = mock()
-    private val mockNotes: Single<List<NoteDataModel>> = mock()
+    private val mockLocalDataSource: INoteLocalDataSource = mock()
+    private val mockRemoteDataSource: INoteRemoteDataSource = mock()
+    private val mockNetworkInfo: NoteNetworkInfo = mock()
+    private val stubNotes = listOf(NoteDataModel(noteId = 1, noteTitle = "title", noteDetails = "details"))
+    private val stubNotesSingle: Single<List<NoteDataModel>> = Single.just(stubNotes)
     private val note = NoteModel(
         id = 1,
         noteTitle = "Title",
@@ -25,32 +38,75 @@ class NoteRepositoryImplTest {
 
     @Before
     fun setUp() {
-        sut = NoteRepositoryImpl(mockNoteService)
-        whenever(mockNoteService.getNotes()).thenReturn(mockNotes)
+        sut = NoteRepositoryImpl(
+            remoteDataSource = mockRemoteDataSource,
+            localDataSource = mockLocalDataSource,
+            networkInfo = mockNetworkInfo
+        )
+        whenever(mockRemoteDataSource.getNotes()).thenReturn(stubNotesSingle)
     }
 
     @Test
-    fun testGetNotesCallsServiceCorrectlyToGetNotes() {
+    @Category(OnlineTests::class)
+    fun shouldCheckIfDeviceIsOnlineByCallingIsConnected() {
+        val mockObservableBoolean: ObservableBoolean = mock()
+        whenever(mockObservableBoolean.get()).thenReturn(true)
+        whenever(mockNetworkInfo.isConnected()).thenReturn(mockObservableBoolean)
         sut.getNotes()
-        verify(mockNoteService).getNotes()
+        verify(mockNetworkInfo.isConnected())
     }
 
     @Test
-    fun testDeleteNoteCallsServiceCorrectlyToDeleteNote() {
-        sut.deleteNote(1)
-        verify(mockNoteService).deleteNote(1)
+    @Category(OnlineTests::class)
+    fun shouldReturnRemoteDataWhenRemoteDataCallIsSuccessful() {
+        val mockObservableBoolean: ObservableBoolean = mock()
+        whenever(mockObservableBoolean.get()).thenReturn(true)
+        whenever(mockNetworkInfo.isConnected()).thenReturn(mockObservableBoolean)
+        val notes: List<NoteModel> = sut.getNotes().blockingGet()
+        val mapper = NoteMapper()
+        val mapped = mapper.toNote(notes[0])
+        val expectedNote = NoteDataModel(noteId = 1, noteTitle = "title", noteDetails = "details")
+        assert(mapped == expectedNote)
     }
 
     @Test
-    fun testPostNoteCallsServiceCorrectlyToPostNote() {
-        sut.postNote(note)
-        verify(mockNoteService).postNote(noteDataModel)
+    @Category(OnlineTests::class)
+    fun shouldCacheTheDataLocallyWhenCallToRemoteDataSourceIsSuccessful() {
+        val mockObservableBoolean: ObservableBoolean = mock()
+        whenever(mockObservableBoolean.get()).thenReturn(true)
+        whenever(mockNetworkInfo.isConnected()).thenReturn(mockObservableBoolean)
+        sut.getNotes()
+        verify(mockLocalDataSource).cacheNotes(stubNotes)
     }
 
     @Test
-    fun testEditNoteCallsServiceCorrectlyToEditNote() {
-        val params = EditNoteParams(note)
-        sut.editNote(params)
-        verify(mockNoteService).editNote(1, noteDataModel)
+    @Category(OfflineTests::class)
+    fun shouldReturnLastLocallyCachedDataWhenCachedDataIsPresent() {
+        val mockObservableBoolean: ObservableBoolean = mock()
+        whenever(mockObservableBoolean.get()).thenReturn(false)
+        whenever(mockNetworkInfo.isConnected()).thenReturn(mockObservableBoolean)
+        whenever(mockLocalDataSource.getNotes()).thenReturn(stubNotesSingle)
+        val notes: List<NoteModel> = sut.getNotes().blockingGet()
+        val mapper = NoteMapper()
+        val mapped = mapper.toNote(notes[0])
+        val expectedNote = NoteDataModel(noteId = 1, noteTitle = "title", noteDetails = "details")
+        assert(mapped == expectedNote)
+        verify(mockLocalDataSource).getNotes()
+        verifyNoMoreInteractions(mockRemoteDataSource)
     }
 }
+
+
+@RunWith(Categories::class)
+@Categories.IncludeCategory(
+    OnlineTests::class
+)
+@Suite.SuiteClasses(NoteRepositoryImplTest::class)
+class NoteRepositoryOnlineTestSuite
+
+@RunWith(Categories::class)
+@Categories.IncludeCategory(
+    OfflineTests::class
+)
+@Suite.SuiteClasses(NoteRepositoryImplTest::class)
+class NoteRepositoryOfflineTestSuite

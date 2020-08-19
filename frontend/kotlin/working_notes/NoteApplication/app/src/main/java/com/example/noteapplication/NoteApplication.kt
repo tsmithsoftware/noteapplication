@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.noteapplication.shared.di.components.ApplicationComponent
 import com.example.noteapplication.shared.di.components.DaggerApplicationComponent
 import com.example.noteapplication.shared.di.modules.NoteModule
+import com.example.noteapplication.shared.di.modules.RoomModule
 
 // appComponent lives in the Application class to share its lifecycle
 class NoteApplication: Application() {
@@ -11,5 +12,6 @@ class NoteApplication: Application() {
     val appComponent: ApplicationComponent = DaggerApplicationComponent
         .builder()
         .noteModule(NoteModule(this))
+        .roomModule(RoomModule(this))
         .build()
 }
