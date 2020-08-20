@@ -1,11 +1,8 @@
-package com.example.noteapplication.features.notes.data.services
+package com.example.noteapplication.features.notes.data.datasources.remote
 
-import com.example.noteapplication.features.login.domain.models.LoginRequest
-import com.example.noteapplication.features.login.domain.models.LoginResponse
 import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.data.models.PostNote
 import io.reactivex.Single
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -18,5 +15,5 @@ interface NoteService {
     @POST("/notes")
     fun postNote(@Body note: PostNote): Call<Void>
     @PUT("/notes/{noteId}")
-    fun editNote( @Path ("noteId") noteId: Int, @Body note: PostNote): Call<Void>
+    fun editNote(@Path ("noteId") noteId: Int, @Body note: PostNote): Call<Void>
 }
