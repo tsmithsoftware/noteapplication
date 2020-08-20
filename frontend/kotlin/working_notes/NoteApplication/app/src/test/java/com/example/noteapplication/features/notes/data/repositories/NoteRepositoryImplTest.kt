@@ -53,7 +53,7 @@ class NoteRepositoryImplTest {
         whenever(mockObservableBoolean.get()).thenReturn(true)
         whenever(mockNetworkInfo.isConnected()).thenReturn(mockObservableBoolean)
         sut.getNotes()
-        verify(mockNetworkInfo.isConnected())
+        verify(mockNetworkInfo).isConnected()
     }
 
     @Test

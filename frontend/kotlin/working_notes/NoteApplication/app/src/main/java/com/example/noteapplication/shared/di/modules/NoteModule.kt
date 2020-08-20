@@ -4,12 +4,11 @@ import android.content.Context
 import com.example.noteapplication.features.login.data.repositories.LoginRepositoryImpl
 import com.example.noteapplication.features.login.data.services.LoginService
 import com.example.noteapplication.features.login.domain.repositories.LoginRepository
-import com.example.noteapplication.features.notes.data.datasources.interfaces.INoteRemoteDataSource
 import com.example.noteapplication.features.notes.data.datasources.local.NoteDao
 import com.example.noteapplication.features.notes.data.datasources.local.NoteLocalDataSourceImpl
 import com.example.noteapplication.features.notes.data.datasources.remote.NoteRemoteDataSourceImpl
-import com.example.noteapplication.features.notes.data.repositories.NoteRepositoryImpl
 import com.example.noteapplication.features.notes.data.datasources.remote.NoteService
+import com.example.noteapplication.features.notes.data.repositories.NoteRepositoryImpl
 import com.example.noteapplication.features.notes.domain.repositories.NoteRepository
 import com.example.noteapplication.shared.util.NoteNetworkInfo
 import com.example.noteapplication.shared.util.NoteNetworkInfoImpl

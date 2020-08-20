@@ -1,8 +1,6 @@
 package com.example.noteapplication.shared.di.modules
 
-import android.app.Application
 import android.content.Context
-import androidx.room.Room
 import com.example.noteapplication.features.notes.data.datasources.local.NoteDao
 import com.example.noteapplication.features.notes.data.datasources.local.NoteRoomDatabase
 import dagger.Module
@@ -11,14 +9,12 @@ import javax.inject.Singleton
 
 
 @Module
-class RoomModule(val context: Context) {
-
-    private val noteRoomDatabase = NoteRoomDatabase.getDatabase(context)
+class RoomModule() {
 
     @Singleton
     @Provides
-    fun providesRoomDatabase(): NoteRoomDatabase {
-        return noteRoomDatabase
+    fun providesRoomDatabase(context: Context): NoteRoomDatabase {
+        return NoteRoomDatabase.getDatabase(context)
     }
 
     @Singleton

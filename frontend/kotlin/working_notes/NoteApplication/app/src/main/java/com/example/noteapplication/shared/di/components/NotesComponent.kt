@@ -2,11 +2,11 @@ package com.example.noteapplication.shared.di.components
 
 import android.content.Context
 import com.example.noteapplication.features.login.app.ui.LoginFragment
-import com.example.noteapplication.features.notes.app.ui.fragments.SecondaryFragment
-import com.example.noteapplication.features.notes.app.ui.fragments.MainNoteFragment
-import com.example.noteapplication.shared.app.activities.MainActivity
 import com.example.noteapplication.features.notes.app.ui.fragments.EditNoteFragment
+import com.example.noteapplication.features.notes.app.ui.fragments.MainNoteFragment
+import com.example.noteapplication.features.notes.app.ui.fragments.SecondaryFragment
 import com.example.noteapplication.features.notes.app.ui.fragments.SubmitNoteFragment
+import com.example.noteapplication.shared.app.activities.MainActivity
 import com.example.noteapplication.shared.di.scopes.ActivityScope
 import dagger.Subcomponent
 
@@ -19,7 +19,6 @@ interface NotesComponent {
     interface Factory {
         fun create(): NotesComponent
     }
-
     fun inject(context: Context)
     fun inject(activity: MainActivity)
     fun inject(usernameFragment: MainNoteFragment)

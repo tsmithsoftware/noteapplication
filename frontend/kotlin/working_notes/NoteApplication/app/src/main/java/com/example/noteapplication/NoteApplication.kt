@@ -6,12 +6,10 @@ import com.example.noteapplication.shared.di.components.DaggerApplicationCompone
 import com.example.noteapplication.shared.di.modules.NoteModule
 import com.example.noteapplication.shared.di.modules.RoomModule
 
-// appComponent lives in the Application class to share its lifecycle
 class NoteApplication: Application() {
-    // Reference to the application graph that is used across the whole app
     val appComponent: ApplicationComponent = DaggerApplicationComponent
         .builder()
         .noteModule(NoteModule(this))
-        .roomModule(RoomModule(this))
+        .roomModule(RoomModule())
         .build()
 }
