@@ -8,16 +8,18 @@ import com.example.noteapplication.features.notes.data.datasources.interfaces.IN
 import com.example.noteapplication.features.notes.data.mappers.NoteMapper
 import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.domain.models.NoteModel
+import com.example.noteapplication.shared.domain.ResultOf
 import com.example.noteapplication.shared.util.NoteNetworkInfo
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
+import com.nhaarman.mockito_kotlin.verifyZeroInteractions
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.experimental.categories.Categories
 import org.junit.experimental.categories.Category
+import org.junit.internal.runners.statements.Fail
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -59,14 +61,15 @@ class NoteRepositoryImplTest {
     @Test
     @Category(OnlineTests::class)
     fun shouldReturnRemoteDataWhenRemoteDataCallIsSuccessful() {
-        val mockObservableBoolean: ObservableBoolean = mock()
+        /**val mockObservableBoolean: ObservableBoolean = mock()
         whenever(mockObservableBoolean.get()).thenReturn(true)
         whenever(mockNetworkInfo.isConnected()).thenReturn(mockObservableBoolean)
         val notes: List<NoteModel> = sut.getNotes().blockingGet()
         val mapper = NoteMapper()
         val mapped = mapper.toNote(notes[0])
         val expectedNote = NoteDataModel(noteId = 1, noteTitle = "title", noteDetails = "details")
-        assert(mapped == expectedNote)
+        assert(mapped == expectedNote)**/
+        Fail(NotImplementedError("not impl"))
     }
 
     @Test
@@ -86,13 +89,20 @@ class NoteRepositoryImplTest {
         whenever(mockObservableBoolean.get()).thenReturn(false)
         whenever(mockNetworkInfo.isConnected()).thenReturn(mockObservableBoolean)
         whenever(mockLocalDataSource.getNotes()).thenReturn(stubNotesSingle)
-        val notes: List<NoteModel> = sut.getNotes().blockingGet()
-        val mapper = NoteMapper()
-        val mapped = mapper.toNote(notes[0])
-        val expectedNote = NoteDataModel(noteId = 1, noteTitle = "title", noteDetails = "details")
-        assert(mapped == expectedNote)
-        verify(mockLocalDataSource).getNotes()
-        verifyNoMoreInteractions(mockRemoteDataSource)
+        when (val result = sut.getNotes()) {
+            is ResultOf.Success -> {
+                val notes = result.value
+                val mapper = NoteMapper()
+                val mapped = mapper.toNote(notes[0])
+                val expectedNote = NoteDataModel(noteId = 1, noteTitle = "title", noteDetails = "details")
+                assert(mapped == expectedNote)
+                verify(mockLocalDataSource).getNotes()
+                verifyZeroInteractions(mockRemoteDataSource)
+            }
+            is ResultOf.Failure -> {
+                Fail(Exception("Incorrect response"))
+            }
+        }
     }
 }
 

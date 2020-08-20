@@ -3,12 +3,12 @@ package com.example.noteapplication.features.notes.data.repositories
 import com.example.noteapplication.features.notes.data.datasources.interfaces.INoteLocalDataSource
 import com.example.noteapplication.features.notes.data.datasources.interfaces.INoteRemoteDataSource
 import com.example.noteapplication.features.notes.data.mappers.NoteMapper
-import com.example.noteapplication.features.notes.data.models.NoteDataModel
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.repositories.NoteRepository
+import com.example.noteapplication.shared.data.GeneralErrorHandlerImpl
+import com.example.noteapplication.shared.domain.ResultOf
 import com.example.noteapplication.shared.util.EditNoteParams
 import com.example.noteapplication.shared.util.NoteNetworkInfo
-import io.reactivex.Single
 import retrofit2.Call
 import javax.inject.Inject
 
@@ -21,29 +21,34 @@ class NoteRepositoryImpl @Inject constructor(
 
     private val noteMapper = NoteMapper()
 
-    override fun getNotes(): Single<List<NoteModel>> {
+    override fun getNotes(): ResultOf<List<NoteModel>> {
+        lateinit var resultOf: ResultOf<List<NoteModel>>
         return when(networkInfo.isConnected().get()) {
             true -> {
-                val noteSingle = remoteDataSource.getNotes()
-                localDataSource.cacheNotes(noteSingle.blockingGet())
-                mapDataModelToModel(noteSingle)
+                remoteDataSource.getNotes()
+                    .doOnSuccess {
+                        localDataSource.cacheNotes(it)
+                        val noteList = ArrayList<NoteModel>()
+                        for (model in it) {
+                            noteList.add(noteMapper.toNoteDetails(model))
+                        }
+                        resultOf = ResultOf.Success(noteList)
+                    }
+                    .doOnError {
+                        resultOf = ResultOf.Failure(GeneralErrorHandlerImpl.getError(it))
+                    }
+                resultOf
             }
             false -> {
-                val localNotes = localDataSource.getNotes()
-                mapDataModelToModel(localNotes)
-            }
-        }
-    }
-
-    private fun mapDataModelToModel(noteSingle: Single<List<NoteDataModel>>): Single<List<NoteModel>> {
-        return noteSingle
-            .map {
+                val localNotes = localDataSource.getNotes().blockingGet()
                 val noteList = ArrayList<NoteModel>()
-                for (model in it) {
+                for (model in localNotes) {
                     noteList.add(noteMapper.toNoteDetails(model))
                 }
-                noteList
+                resultOf = ResultOf.Success(noteList)
+                resultOf
             }
+        }
     }
 
     override fun deleteNote(noteId: Int): Call<Void> {

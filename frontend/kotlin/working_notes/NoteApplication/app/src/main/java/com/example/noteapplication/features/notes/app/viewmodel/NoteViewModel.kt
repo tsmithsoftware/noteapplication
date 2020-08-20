@@ -4,15 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.noteapplication.shared.di.scopes.ActivityScope
 import com.example.noteapplication.features.notes.domain.models.NoteModel
 import com.example.noteapplication.features.notes.domain.usecases.DeleteNoteUseCase
 import com.example.noteapplication.features.notes.domain.usecases.GetNotesUseCase
-import com.example.noteapplication.shared.util.NoParams
+import com.example.noteapplication.shared.di.scopes.ActivityScope
+import com.example.noteapplication.shared.domain.ResultOf
 import com.example.noteapplication.shared.util.DeleteNoteParams
-import io.reactivex.Observer
-import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.schedulers.Schedulers
+import com.example.noteapplication.shared.util.NoParams
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,18 +32,14 @@ class NoteViewModel @Inject constructor(
     }
 
     fun loadNotes() {
-        getNotesUseCase.execute(NoParams())
-            .subscribeOn(Schedulers.io())
-            .subscribeWith(object: DisposableSingleObserver<List<NoteModel>>(),
-                Observer<NoteModel> {
-                override fun onSuccess(obtainedNotes: List<NoteModel>?) {
-                    notes.postValue(obtainedNotes)
-                }
-
-                override fun onError(e: Throwable?) {}
-                override fun onComplete() {}
-                override fun onNext(value: NoteModel?) {}
-            })
+        when(val result = getNotesUseCase.execute(NoParams())) {
+            is ResultOf.Success -> {
+                notes.value = result.value
+            }
+            is ResultOf.Failure -> {
+                //do something
+            }
+        }
     }
 
     fun onDeleteNoteClicked(noteId: Int?) {
