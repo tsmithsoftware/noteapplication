@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:notes_application/core/error/exceptions.dart';
 import 'package:notes_application/core/usecases/usecase.dart';
@@ -21,7 +19,7 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
 
   @override
   Future<LoginResponseModel> login(LoginParams loginParams) async {
-    final url = 'http://localhost:80/oauth';
+    final url = 'http://10.0.2.2:80/oauth';
 
     Map<String, String> body = {
       'grant_type': 'client_credentials',
@@ -31,8 +29,7 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
 
     final response = await client.post(
       url,
-      body: body,
-      headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() }
+      body: body
     );
 
     if (response.statusCode == 200) {

@@ -13,4 +13,9 @@ class LoginResponse extends Equatable {
     @required this.tokenType,
     @required this.scope,
   }) : super([accessToken, scope]);
+
+  @override
+  String toString() {
+    return "Login Response! Access Token: $accessToken";
+  }
 }

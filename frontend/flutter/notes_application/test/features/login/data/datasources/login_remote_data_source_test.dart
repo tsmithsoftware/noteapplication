@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -34,8 +32,7 @@ void main() {
     when(
         mockHttpClient.post(
             any,
-            body: body,
-            headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() }
+            body: body
         )
     ).thenAnswer((_) async => http.Response(fixture('login_response.json'), 200));
   }
@@ -44,8 +41,7 @@ void main() {
     when(
         mockHttpClient.post(
             any,
-            body: body,
-            headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() }
+            body: body
         )
     ).thenAnswer((_) async => http.Response('Something went wrong', 404),
     );
@@ -62,8 +58,7 @@ void main() {
       verify(
           mockHttpClient.post(
               any,
-              body: body,
-              headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() }
+              body: body
           )
       );
     });
