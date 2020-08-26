@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:notes_application/core/usecases/usecase.dart';
 import 'package:notes_application/features/login/domain/entities/login_response.dart';
 import 'package:notes_application/features/login/domain/repositories/login_repository.dart';
-import 'package:notes_application/features/login/domain/usecases/Login.dart';
+import 'package:notes_application/features/login/domain/usecases/login.dart';
 
 class MockLoginRepository extends Mock
     implements LoginRepository {}
@@ -20,7 +20,7 @@ void main() {
 
   final loginResponse = LoginResponse(
       accessToken: "accessToken",
-      expiresIn: "3600",
+      expiresIn: 3600,
       scope: "NotesApi.all",
       tokenType: "Bearer"
   );

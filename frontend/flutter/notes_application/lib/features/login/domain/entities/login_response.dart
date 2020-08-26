@@ -1,15 +1,16 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 class LoginResponse extends Equatable {
   final String accessToken;
-  final String expiresIn;
+  final int expiresIn;
   final String tokenType;
   final String scope;
 
   LoginResponse({
-    this.accessToken,
-    this.expiresIn,
-    this.tokenType,
-    this.scope,
+    @required this.accessToken,
+    @required this.expiresIn,
+    @required this.tokenType,
+    @required this.scope,
   }) : super([accessToken, scope]);
 }
